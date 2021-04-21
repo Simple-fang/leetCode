@@ -1,9 +1,7 @@
 package bfs;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -17,7 +15,7 @@ import java.util.Set;
 字符串 target 代表可以解锁的数字，你需要给出最小的旋转次数，如果无论如何不能解锁，返回 -1。
  */
 
-public class N_752 {
+public class N_752_openLock {
 
 	//将s[i]拨轮加1
 	private static  String plus(String s, int i) {
@@ -46,7 +44,7 @@ public class N_752 {
 		Set<String> deadStrs = new HashSet<String>();
 		for(String str : deadEnds)
 			deadStrs.add(str);
-		List<String> visited = new ArrayList<String>();
+		Set<String> visited = new HashSet<String>();
 		String start = "0000";
 		queue.offer(start);
 		visited.add(start);
@@ -64,15 +62,18 @@ public class N_752 {
 				if(s.equals(target))
 					return step;
 				
-				visited.add(s);
 				
-				for(int j=0 ; j<4 ; i++) {
+				for(int j=0 ; j<4 ; j++) {
 					String str_plus = plus(s, j);
-					if(!visited.contains(str_plus))
+					if(!visited.contains(str_plus)) {
+						queue.offer(str_plus);
 						visited.add(str_plus);
+					}
 					String str_min = minus(s, j);
-					if(!visited.contains(str_min))
+					if(!visited.contains(str_min)) {
+						queue.offer(str_min);
 						visited.add(str_min);
+					}
 				}
 			}
 			step++;
@@ -84,7 +85,9 @@ public class N_752 {
 	
 	
 	public static void main(String[] args) {
-		
+		String[] deadends = new String[] {"0201","0101","0102","1212","2002"};
+		String target = "0202";
+		System.out.println(getRes(deadends, target));
 		
 	}
 	
