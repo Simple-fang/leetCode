@@ -43,8 +43,52 @@ public class N_92_reserveListBetween {
         return head;
     }
 
-    public static void main(String[] args) {
-        ListNode head = LinkedListUtil.build_rear(new int[]{1, 2, 3, 4});
-        LinkedListUtil.traverse(reserveBetween(head, 2, 3));
+
+    /*
+    迭代思路：找到左右两节点，并记录反转区间的前后节点，反转后拼接
+     */
+    public static ListNode reserveBetween_itera(ListNode head, int m, int n) {
+        //头节点可能发生变化，使用虚拟头节点可避免复杂的分类讨论
+        ListNode dumpNode = new ListNode(-1);
+        dumpNode.next = head;
+        ListNode pre, back, left, right;
+        pre = dumpNode;
+        for (int i = 0; i < m-1; i++) {
+            pre = pre.next;
+        }
+        right = pre;
+        for (int i = 0; i < n - m + 1; i++) {
+            right = right.next;
+        }
+        left = pre.next;
+        back = right.next;
+
+        //左闭右开
+        reserve(left, back);
+
+        pre.next = right;
+        left.next = back;
+
+        return head;
     }
+
+
+    public static ListNode reserve(ListNode left, ListNode right) {
+        ListNode pre = null;
+        ListNode cur = left;
+        while (cur != right) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+
+    public static void main(String[] args) {
+        ListNode head = LinkedListUtil.build_rear(new int[]{1, 2, 3, 4, 5});
+        LinkedListUtil.traverse(reserveBetween(head, 2, 3));
+//        LinkedListUtil.traverse(reserveBetween_itera(head,2,3));
+    }
+
 }
