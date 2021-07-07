@@ -55,15 +55,18 @@ public class N_234_palindrome {
         //翻转中点后链表
         ListNode left = head;
         ListNode right = reserve(slow);
+        ListNode p1 = right;
         //回文匹配
-        while (right != null) {
+        boolean res = true;
+        while (res && right != null) {
             if(left.val != right.val)
-                return false;
+                res = false;
             left = left.next;
             right = right.next;
         }
-
-        return true;
+        //再次翻转中点后链表，复原链表
+        reserve(p1);
+        return res;
     }
 
     //翻转指定节点后的链表
@@ -84,8 +87,10 @@ public class N_234_palindrome {
 
     public static void main(String[] args) {
         ListNode head = LinkedListUtil.build_rear(new int[]{1, 2, 3, 3, 2, 1});
-        System.out.println(isPalindrome(head));
+        LinkedListUtil.traverse(head);
+//        System.out.println(isPalindrome(head));
         System.out.println(isPalindrome_2(head));
+        LinkedListUtil.traverse(head);
     }
 
 }
