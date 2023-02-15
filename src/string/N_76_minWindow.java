@@ -1,5 +1,6 @@
 package string;
 
+import javax.xml.stream.events.StartDocument;
 import java.util.*;
 
 /**
@@ -17,61 +18,50 @@ public class N_76_minWindow {
             return res;
         }
 
-        // 构造欠债表
-        HashMap<Character, Integer> debt = new HashMap<>();
-        for (char c : t.toCharArray()) {
-            debt.put(c, debt.getOrDefault(c, 0) + 1);
+        Map<Character, Integer> window = new HashMap<>();
+        Map<Character, Integer> need = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            need.put(t.charAt(i), need.getOrDefault(t.charAt(i), 0) + 1);
         }
-        // 欠债总数
-        int all = t.length();
 
-        int l = 0;
-        int r = 0;
-        int minLen = Integer.MAX_VALUE;
-        int leftBest = -1;
-        int rightBest = -1;
-        while (r < s.length()) {
-            // r 进入窗口
-            char c = s.charAt(r);
-            if (debt.containsKey(c)) {
-                // 有效还款
-                if (debt.get(c) > 0) {
-                    all--;
+
+        int left = 0, right = 0;
+        int leftBest = 0, rightBest = 0;
+        int minLength = Integer.MAX_VALUE;
+        int valid = 0;
+        while (right < s.length()) {
+            char rc = s.charAt(right);
+            right++;
+            if (need.containsKey(rc)) {
+                window.put(rc, window.getOrDefault(rc, 0) + 1);
+                if (window.get(rc).intValue() == need.get(rc).intValue()) {
+                    valid++;
                 }
-                debt.put(c, debt.get(c) - 1);
             }
-
-            // 满足条件时， 缩小窗口， l右移
-            while (all == 0) {
-                // 更新最优结果
-                if (r - l + 1 < minLen) {
-                    minLen = r - l + 1;
-                    leftBest = l;
-                    rightBest = r;
+            while (valid == need.size()) {
+                if (right - left < minLength) {
+                    minLength = right - left;
+                    leftBest = left;
+                    rightBest = right;
                 }
-
-                // l 右移
-                char cl = s.charAt(l);
-                if (debt.containsKey(cl)) {
-                    if (debt.get(cl) >= 0) {
-                        all++;
+                char lc = s.charAt(left);
+                left++;
+                if (need.containsKey(lc)) {
+                    if (window.get(lc).intValue() == need.get(lc).intValue()) {
+                        valid--;
                     }
-                    debt.put(cl, debt.get(cl) + 1);
+                    window.put(lc, window.get(lc) - 1);
                 }
-                l++;
             }
-            r++;
         }
 
-
-        return minLen == Integer.MAX_VALUE ? "" : s.substring(leftBest, rightBest + 1);
-
+        return minLength==Integer.MAX_VALUE ? "" : s.substring(leftBest, rightBest);
     }
 
 
     public static void main(String[] args) {
         N_76_minWindow bean = new N_76_minWindow();
-        System.out.println(bean.minWindow("a", "a"));
+        System.out.println(bean.minWindow("aa", "aa"));
 
     }
 }
