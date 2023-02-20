@@ -16,7 +16,6 @@ import java.util.PriorityQueue;
 public class N_23_mergeKLists {
 
     //分治思路
-    /*
     private ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) {
             return null;
@@ -29,7 +28,7 @@ public class N_23_mergeKLists {
             return lists[start];
         }
         int mid = start + (end - start) / 2;
-        ListNode l = mergeKLists(lists, 0, mid);
+        ListNode l = mergeKLists(lists, start, mid);
         ListNode r = mergeKLists(lists, mid + 1, end);
         return mergeTwoList(l, r);
     }
@@ -47,8 +46,9 @@ public class N_23_mergeKLists {
             return l2;
         }
     }
-    */
 
+
+    /*
     //借助优先级队列找到k个链表中最小值节点
     private ListNode mergeKLists(ListNode[] listNodes) {
 
@@ -74,6 +74,8 @@ public class N_23_mergeKLists {
         return dummy.next;
     }
 
+
+     */
 
 
 }
