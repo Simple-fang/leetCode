@@ -7,7 +7,7 @@ import base.ListNode;
  */
 public class N_21_mergeTwoLists {
 
-    //分治方法
+    //递归方法
     private static ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
