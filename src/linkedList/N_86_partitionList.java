@@ -24,7 +24,7 @@ public class N_86_partitionList {
                 p2.next = p;
                 p2 = p2.next;
             }
-            //切断原链表
+            //切断原链表，防止分割后的链表尾节点仍有链接
             ListNode tmp = p.next;
             p.next = null;
             p = tmp;
