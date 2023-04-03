@@ -19,6 +19,17 @@ public class LinkedListUtil {
         return head;
     }
 
+    //使用虚拟头节点，不需要额外判断头节点
+    public static ListNode build_head2(int[] arr) {
+        ListNode head = new ListNode(-1);
+        for (int i = 0; i < arr.length; i++) {
+            ListNode tmp = new ListNode(arr[i]);
+            tmp.next = head.next;
+            head.next = tmp;
+        }
+        return head.next;
+    }
+
     //尾插法顺序建立单链表
     public static ListNode build_rear(int[] arr){
         ListNode head = null;
@@ -34,7 +45,19 @@ public class LinkedListUtil {
             }
         }
         return head;
+    }
 
+    //使用虚拟头节点，不需要额外判断头节点
+    public static ListNode build_rear2(int[] arr) {
+        ListNode head = new ListNode(-1);
+        ListNode tail = head;
+
+        for (int i = 0; i < arr.length; i++) {
+            ListNode tmp = new ListNode(arr[i]);
+            tail.next = tmp;
+            tail = tmp;
+        }
+        return head.next;
     }
 
 
@@ -56,8 +79,8 @@ public class LinkedListUtil {
 
     public static void main(String[] args) {
         int[] arr = new int[]{1,2,3,4};
-        traverse(build_head(arr));
+        traverse(build_head2(arr));
         System.out.println();
-        traverse(build_rear(arr));
+        traverse(build_rear2(arr));
     }
 }
